@@ -6,7 +6,7 @@ public class BitVector {
     public BitVector(int size) {
         this.size = size;
         if (size % 8 == 0) {
-             this.length = size / 8;
+            this.length = size / 8;
         } else {
             this.length = size / 8 + 1;
         }
@@ -22,31 +22,25 @@ public class BitVector {
         return size;
     }
 
-    public void set(int position) {
-        if (position < 0 || position >= size){
-            throw new BitVectorIndexOutOfBoundsException(position);
+    public void set(int bitIndex) {
+        if (bitIndex < 0 || bitIndex >= size) {
+            throw new BitVectorIndexOutOfBoundsException(bitIndex);
         }
 
-        int sec = length - (position / 8) - 1;
-        byte changer = (byte) 1;
-        while (position >= 8) {
-            position -= 8;
-        }
+        int index = length - (bitIndex / 8) - 1;;
+        bitIndex %= 8;
 
-        bitVec[sec] |= (byte) (changer << position);
+        bitVec[index] |= (1 << bitIndex);
     }
 
-    public void reset(int position) {
-        if (position < 0 || position >= size){
-            throw new BitVectorIndexOutOfBoundsException(position);
+    public void reset(int bitIndex) {
+        if (bitIndex < 0 || bitIndex >= size) {
+            throw new BitVectorIndexOutOfBoundsException(bitIndex);
         }
 
-        int sec = length - (position / 8) - 1;
-        byte changer = (byte) 1;
-        while (position >= 8) {
-            position -= 8;
-        }
+        int index = length - (bitIndex / 8) - 1;
+        bitIndex %= 8;
 
-        bitVec[sec] = (byte) ~((~bitVec[sec]) | (changer << position));
+        bitVec[index] &= ~(1 << bitIndex);
     }
 }
