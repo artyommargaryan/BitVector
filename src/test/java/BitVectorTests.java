@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BitVectorTests {
     @Test
@@ -19,19 +20,18 @@ public class BitVectorTests {
         assertEquals(2, bytes[1]);
         bitVector.set(8);
         assertEquals(1, bytes[0]);
-        try {
-            bitVector.set(14);
-            System.out.println("ERROR: Exception didn't catch for 15");
-        } catch (BitVectorIndexOutOfBoundsException e) {
-            System.out.println("OK: Exception caught for 15");
-        }
+    }
 
-        try {
-            bitVector.set(-1);
-            System.out.println("ERROR: Exception didn't catch for -1");
-        } catch (BitVectorIndexOutOfBoundsException e) {
-            System.out.println("OK: Exception caught for -1");
-        }
+    @Test
+    public void bitVectorSetShouldThrowExceptionWhenOversizeTest() {
+        BitVector bitVector = new BitVector(14);
+        assertThrows(BitVectorIndexOutOfBoundsException.class, () -> bitVector.set(14));
+    }
+
+    @Test
+    public void bitVectorSetShouldThrowExceptionWhenSizeIsNegativeTest() {
+        BitVector bitVector = new BitVector(14);
+        assertThrows(BitVectorIndexOutOfBoundsException.class, () -> bitVector.set(-1));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class BitVectorTests {
         BitVector bitVector = new BitVector(14);
         byte[] bytes = bitVector.getBitVec();
         bitVector.reset(1);
-        assertEquals(0,bytes[1]);
+        assertEquals(0, bytes[1]);
         bitVector.set(0);
         bitVector.set(1);
         bitVector.reset(1);
@@ -48,18 +48,17 @@ public class BitVectorTests {
         bitVector.set(10);
         bitVector.reset(9);
         assertEquals(4, bytes[0]);
-        try {
-            bitVector.set(15);
-            System.out.println("ERROR: Exception didn't catch for 15");
-        } catch (BitVectorIndexOutOfBoundsException e) {
-            System.out.println("OK: Exception caught for 15");
-        }
+    }
 
-        try {
-            bitVector.set(-1);
-            System.out.println("ERROR: Exception didn't catch for -1");
-        } catch (BitVectorIndexOutOfBoundsException e) {
-            System.out.println("OK: Exception caught for -1");
-        }
+    @Test
+    public void bitVectorResetShouldThrowExceptionWhenOversizeTest() {
+        BitVector bitVector = new BitVector(14);
+        assertThrows(BitVectorIndexOutOfBoundsException.class, () -> bitVector.reset(15));
+    }
+
+    @Test
+    public void bitVectorResetShouldThrowExceptionWhenSizeIsNegativeTest() {
+        BitVector bitVector = new BitVector(14);
+        assertThrows(BitVectorIndexOutOfBoundsException.class, () -> bitVector.reset(-1));
     }
 }
