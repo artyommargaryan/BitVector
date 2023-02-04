@@ -27,7 +27,7 @@ public class BitVector {
             throw new BitVectorIndexOutOfBoundsException(bitIndex);
         }
 
-        int index = length - (bitIndex / 8) - 1;;
+        int index = length - (bitIndex / 8) - 1;
         bitIndex %= 8;
 
         bitVec[index] |= (1 << bitIndex);
